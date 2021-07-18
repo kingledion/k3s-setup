@@ -1,0 +1,28 @@
+#!/bin/bash
+
+helpFunction() 
+{
+    echo "Some or all parameters are empty"
+    echo ""
+    echo "Usage: $0 <server-ip> <k3s-token>"
+    echo "server-ip: ip address of k3s server"
+    echo "k3s-token: token for k3s server"
+    exit 1
+}
+
+# parse command line arguments for server ip address and k3s token
+if [ -z "$1" ]
+    then
+        helpFunction
+fi
+
+if [ -z "$2" ]
+    then
+        helpFunction
+fi
+
+# download and setup k3s in agent mode
+#   
+
+curl -sfL https://get.k3s.io | K3S_URL="https://"$1 K3S_TOKEN=$2 sh -
+
