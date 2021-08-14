@@ -14,4 +14,4 @@ mkdir ~/.kube 2> /dev/null
 sudo cp /etc/rancher/k3s/k3s.yaml ~/.kube/config
 
 # remove group and world read premissions on kube config file
-chmod u=rw ~/.kube/config
+sudo chmod u=rw ~/.kube/config
