@@ -2,10 +2,9 @@
 
 # download and setup k3s
 # options: 
-#   - user docker instead of containerd
 #   - make config file read and writable
 #   - disable traefik ingress controller
-curl -sfL https://get.k3s.io | sh -s - --docker --write-kubeconfig-mode 644 --disable traefik
+curl -sfL https://get.k3s.io | sh -s - --write-kubeconfig-mode 644 --disable traefik
 
 # make sure ~/.kube exists; swallow error if it does
 mkdir ~/.kube 2> /dev/null
@@ -15,3 +14,20 @@ sudo cp /etc/rancher/k3s/k3s.yaml ~/.kube/config
 
 # remove group and world read premissions on kube config file
 sudo chmod u=rw ~/.kube/config
+
+# install nginx ingress controller
+# NOTE update to stable branch v1.0.0 once that is stable out of alpha
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/static/provider/baremetal/deploy.yaml
+
+# Add a load balancer
+# create patch definition
+
+read -d '' ingress << EOF
+spec:
+  template:
+    spec:
+      hostNetwork: true
+EOF || true
+
+# apply patch
+kubectl patch deployment ingress-nginx-controller -n ingress-nginx --patch "$ingress"
