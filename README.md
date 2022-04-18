@@ -40,4 +40,20 @@ ssh <user>@<server-address> 'sudo -S cat /var/lib/rancher/k3s/server/node-token'
 ```
 
   - Execute `k3s-server <ip> <token>` with values from above
-  
+
+
+Alternately, follow here: https://pet2cattle.com/2021/11/k3s-multimaster-embedded-db
+
+## Set up k8s dashboard
+
+Install with:
+```
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.5.0/aio/deploy/recommended.yaml
+```
+
+Get Bearer token:
+
+Access with:
+```
+http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/
+```
